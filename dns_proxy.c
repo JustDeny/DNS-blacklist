@@ -1,3 +1,36 @@
+/*
+ * This file contains code derived from DNSProxy available at https://github.com/andreafabrizi/DNSProxy/blob/master/dnsp.c.
+ * DNSProxy is licensed under the GNU General Public License v2.0.
+ * 
+ * Changes made to the original:
+ * - Modified the function 'parse_dns_request' to not to return pointer of parsed fields structure.
+ * - Renamed and modified the function 'build_dns_response' to build only response with RCODE=3 and text message in resource records.
+ *   Also changed the way DNS packet fields was filled in, added appropriate structures such as 'dns_question' and 'dns_rr'.
+ * 
+ * The original license follows below:
+ */
+/*
+ * DNS proxy 0.5
+ *  
+ * Copyright (C) 2009-2013 Andrea Fabrizi <andrea.fabrizi@gmail.com>
+ *  
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *  
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *  
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ *
+ */
+
+
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netdb.h>
@@ -17,8 +50,6 @@ int blacklist_size = 0;
 /* Server address where DNS packets will be forwarded */
 char upstream_server_ip[IP_STR_SIZE];
 char response_msg[RESPONSE_SIZE];
-
-
 
 int main(int argc, char **argv) {
     int server_socket, up_socket;
