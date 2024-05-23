@@ -9,6 +9,7 @@
  * 
  * The original license follows below:
  */
+
 /*
  * DNS proxy 0.5
  *  
@@ -275,9 +276,6 @@ void free_resources() {
  * @return          Returns 0 on success, or -1 if any errors
 */
 int parse_dns_request(const char *udp_packet, struct parsed_dns_request *dns_req) {
-    //struct parsed_dns_request *dns_req = NULL;
-
-    //dns_req = (struct parsed_dns_request *)buffer; 
     /* Transaction ID */
     dns_req->transaction_id = (uint8_t)udp_packet[1] + (uint16_t)(udp_packet[0] << 8);
     udp_packet += sizeof(dns_req->transaction_id);
